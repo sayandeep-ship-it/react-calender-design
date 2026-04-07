@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Availability Calendar</title>
+    <style>
+      :root {
+        --bg: #f4f7f5;
+        --card: #ffffff;
+        --muted: #7f8885;
+        --text: #222b29;
+        --line: #dfe6e1;
+        --green: #0b7a57;
+        --green-soft: #eef7f3;
+        --tab-bg: #f1f2f1;
+        --shadow: 0 16px 35px rgba(46, 74, 65, 0.08);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        background: linear-gradient(180deg, #eef3f1 0%, #f7faf8 100%);
+        font-family: Inter, "Segoe UI", sans-serif;
+        color: var(--text);
+        padding: 24px;
+      }
+
+      .availability-shell {
+        width: min(100%, 410px);
+      }
+
+      .profile-chip {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 14px;
+        background: #f3f4f3;
+        border-radius: 10px;
+        margin-bottom: 14px;
+      }
+
+      .avatar {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background:
+          radial-gradient(circle at 50% 35%, #f4d2c0 22%, transparent 23%),
+          radial-gradient(circle at 50% 86%, #446f6a 43%, transparent 44%),
+          linear-gradient(180deg, #28374d 0%, #18202c 100%);
+      }
+
+      .profile-chip strong {
+        display: block;
+        font-size: 12px;
+      }
+
+      .profile-chip span {
+        display: block;
+        margin-top: 2px;
+        font-size: 11px;
+        color: var(--muted);
+      }
+
+      .availability-card {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        box-shadow: var(--shadow);
+        padding: 22px;
+      }
+
+      .availability-card h1 {
+        margin: 0;
+        text-align: center;
+        font-size: 18px;
+        font-weight: 600;
+      }
+
+      .availability-card p {
+        margin: 10px 0 18px;
+        text-align: center;
+        font-size: 12px;
+        line-height: 1.5;
+        color: var(--muted);
+      }
+
+      .availability-card p strong {
+        color: var(--green);
+      }
+
+      .view-switcher {
+        width: min(100%, 274px);
+        margin: 0 auto 18px;
+        padding: 4px;
+        border-radius: 10px;
+        background: var(--tab-bg);
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 4px;
+      }
+
+      .view-switcher button {
+        border: 0;
+        background: transparent;
+        border-radius: 8px;
+        height: 36px;
+        cursor: pointer;
+        font-size: 12px;
+        color: #46524f;
+      }
+
+      .view-switcher button.active {
+        background: var(--green);
+        color: white;
+        box-shadow: 0 6px 12px rgba(11, 122, 87, 0.18);
+      }
+
+      .section-label {
+        margin-bottom: 8px;
+        font-size: 14px;
+        font-weight: 500;
+      }
+
+      .calendar-frame {
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        overflow: hidden;
+        background: white;
+      }
+
+      .calendar-topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        padding: 10px 12px;
+        border-bottom: 1px solid #edf2ef;
+      }
+
+      .calendar-controls {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .calendar-topbar select,
+      .calendar-topbar button {
+        border: 0;
+        background: transparent;
+        font: inherit;
+        color: #2b3734;
+      }
+
+      .calendar-topbar select {
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        outline: none;
+      }
+
+      .nav-button {
+        width: 28px;
+        height: 28px;
+        border-radius: 8px;
+        cursor: pointer;
+        color: #4b5b57;
+      }
+
+      .nav-button:hover {
+        background: #f4f7f5;
+      }
+
+      .weekday-row,
+      .month-grid,
+      .week-grid {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+      }
+
+      .weekday-row {
+        padding: 0 12px;
+        margin-top: 10px;
+      }
+
+      .weekday-row div {
+        text-align: center;
+        font-size: 10px;
+        color: #8d9693;
+      }
+
+      .month-grid {
+        padding: 10px 12px 12px;
+        gap: 8px 4px;
+      }
+
+      .day-cell {
+        display: grid;
+        place-items: center;
+        min-height: 34px;
+      }
+
+      .day-button {
+        width: 24px;
+        height: 24px;
+        border-radius: 999px;
+        border: 0;
+        background: transparent;
+        cursor: pointer;
+        font-size: 11px;
+        color: #65716e;
+      }
+
+      .day-button.current-month {
+        color: #34413e;
+      }
+
+      .day-button.selected {
+        background: var(--green);
+        color: white;
+      }
+
+      .day-button.outside {
+        color: #c1c7c4;
+        background: #f3f4f3;
+      }
+
+      .day-button.today-ring {
+        outline: 2px solid rgba(11, 122, 87, 0.22);
+        outline-offset: 2px;
+      }
+
+      .week-grid {
+        padding: 14px 12px 12px;
+        gap: 8px;
+      }
+
+      .week-card,
+      .day-panel {
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: #fbfcfb;
+      }
+
+      .week-card {
+        padding: 10px 6px;
+        text-align: center;
+        cursor: pointer;
+      }
+
+      .week-card.active {
+        border-color: #97cdb7;
+        background: #f2f8f5;
+      }
+
+      .week-card strong,
+      .day-panel strong {
+        display: block;
+        font-size: 11px;
+      }
+
+      .week-card span,
+      .day-panel span {
+        display: block;
+        margin-top: 4px;
+        font-size: 10px;
+        color: var(--muted);
+      }
+
+      .week-card .week-date {
+        width: 30px;
+        height: 30px;
+        border-radius: 999px;
+        margin: 10px auto 0;
+        display: grid;
+        place-items: center;
+        font-size: 12px;
+        background: #e9eeeb;
+        color: #50625e;
+      }
+
+      .week-card.selected .week-date {
+        background: var(--green);
+        color: white;
+      }
+
+      .day-view {
+        padding: 18px 12px 14px;
+      }
+
+      .day-panel {
+        padding: 18px;
+        text-align: center;
+      }
+
+      .day-panel .big-date {
+        width: 54px;
+        height: 54px;
+        margin: 14px auto;
+        border-radius: 999px;
+        display: grid;
+        place-items: center;
+        background: #e9eeeb;
+        color: #445754;
+        font-size: 16px;
+        font-weight: 700;
+      }
+
+      .day-panel.selected .big-date {
+        background: var(--green);
+        color: white;
+      }
+
+      .toggle-button {
+        border: 0;
+        border-radius: 999px;
+        padding: 10px 16px;
+        background: var(--green);
+        color: white;
+        cursor: pointer;
+        font-size: 12px;
+      }
+
+      .calendar-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 14px 14px;
+        border-top: 1px solid #edf2ef;
+        font-size: 11px;
+        color: var(--muted);
+      }
+
+      .selected-count {
+        color: var(--green);
+        font-weight: 600;
+      }
+
+      @media (max-width: 520px) {
+        body {
+          padding: 12px;
+        }
+
+        .availability-card {
+          padding: 16px;
+        }
+
+        .week-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <section class="availability-shell">
+      <div class="profile-chip">
+        <div class="avatar" aria-hidden="true"></div>
+        <div>
+          <strong>Dr. John Smith</strong>
+          <span>Manage availability for appointments, surgery &amp; events</span>
+        </div>
+      </div>
+
+      <div class="availability-card">
+        <h1>Set Availability</h1>
+        <p>
+          Select dates when <strong>Dr. John Smith</strong> typically available in clinics and
+          hospital
+        </p>
+
+        <div class="view-switcher" id="viewSwitcher">
+          <button data-view="month" class="active" type="button">Monthly</button>
+          <button data-view="week" type="button">Weekly</button>
+          <button data-view="day" type="button">Day</button>
+        </div>
+
+        <div class="section-label">Select Dates</div>
+
+        <div class="calendar-frame">
+          <div class="calendar-topbar">
+            <div class="calendar-controls">
+              <button class="nav-button" id="prevButton" type="button" aria-label="Previous">
+                &#8249;
+              </button>
+              <select id="monthSelect" aria-label="Select month"></select>
+            </div>
+
+            <div class="calendar-controls">
+              <select id="yearSelect" aria-label="Select year"></select>
+              <button class="nav-button" id="nextButton" type="button" aria-label="Next">
+                &#8250;
+              </button>
+            </div>
+          </div>
+
+          <div id="calendarContent"></div>
+
+          <div class="calendar-footer">
+            <span id="rangeLabel">March 2026</span>
+            <span class="selected-count" id="selectedCount">31 dates selected</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      const monthNames = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+      ]
+
+      const weekdayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+
+      const state = {
+        view: "month",
+        displayDate: new Date(2026, 2, 1),
+        activeDate: new Date(2026, 2, 18),
+        selectedDates: new Set(),
+      }
+
+      for (let day = 1; day <= 31; day += 1) {
+        state.selectedDates.add(toKey(new Date(2026, 2, day)))
+      }
+
+      const viewSwitcher = document.getElementById("viewSwitcher")
+      const monthSelect = document.getElementById("monthSelect")
+      const yearSelect = document.getElementById("yearSelect")
+      const prevButton = document.getElementById("prevButton")
+      const nextButton = document.getElementById("nextButton")
+      const calendarContent = document.getElementById("calendarContent")
+      const rangeLabel = document.getElementById("rangeLabel")
+      const selectedCount = document.getElementById("selectedCount")
+
+      function setupControls() {
+        monthNames.forEach((name, index) => {
+          const option = document.createElement("option")
+          option.value = index
+          option.textContent = name
+          monthSelect.appendChild(option)
+        })
+
+        for (let year = 2020; year <= 2035; year += 1) {
+          const option = document.createElement("option")
+          option.value = year
+          option.textContent = year
+          yearSelect.appendChild(option)
+        }
+
+        viewSwitcher.addEventListener("click", (event) => {
+          const button = event.target.closest("button[data-view]")
+          if (!button) return
+          state.view = button.dataset.view
+          render()
+        })
+
+        monthSelect.addEventListener("change", () => {
+          state.displayDate = new Date(
+            Number(yearSelect.value),
+            Number(monthSelect.value),
+            1,
+          )
+          syncActiveDateToDisplay()
+          render()
+        })
+
+        yearSelect.addEventListener("change", () => {
+          state.displayDate = new Date(
+            Number(yearSelect.value),
+            Number(monthSelect.value),
+            1,
+          )
+          syncActiveDateToDisplay()
+          render()
+        })
+
+        prevButton.addEventListener("click", () => {
+          shiftRange(-1)
+          render()
+        })
+
+        nextButton.addEventListener("click", () => {
+          shiftRange(1)
+          render()
+        })
+      }
+
+      function shiftRange(step) {
+        if (state.view === "month") {
+          state.displayDate = new Date(
+            state.displayDate.getFullYear(),
+            state.displayDate.getMonth() + step,
+            1,
+          )
+          syncActiveDateToDisplay()
+          return
+        }
+
+        if (state.view === "week") {
+          state.activeDate = new Date(
+            state.activeDate.getFullYear(),
+            state.activeDate.getMonth(),
+            state.activeDate.getDate() + step * 7,
+          )
+          state.displayDate = new Date(
+            state.activeDate.getFullYear(),
+            state.activeDate.getMonth(),
+            1,
+          )
+          return
+        }
+
+        state.activeDate = new Date(
+          state.activeDate.getFullYear(),
+          state.activeDate.getMonth(),
+          state.activeDate.getDate() + step,
+        )
+        state.displayDate = new Date(
+          state.activeDate.getFullYear(),
+          state.activeDate.getMonth(),
+          1,
+        )
+      }
+
+      function syncActiveDateToDisplay() {
+        state.activeDate = new Date(
+          state.displayDate.getFullYear(),
+          state.displayDate.getMonth(),
+          Math.min(state.activeDate.getDate(), daysInMonth(state.displayDate)),
+        )
+      }
+
+      function render() {
+        monthSelect.value = state.displayDate.getMonth()
+        yearSelect.value = state.displayDate.getFullYear()
+
+        Array.from(viewSwitcher.querySelectorAll("button")).forEach((button) => {
+          button.classList.toggle("active", button.dataset.view === state.view)
+        })
+
+        rangeLabel.textContent = getRangeLabel()
+        selectedCount.textContent = `${state.selectedDates.size} dates selected`
+        calendarContent.innerHTML = ""
+
+        if (state.view === "month") {
+          renderMonth()
+          return
+        }
+
+        if (state.view === "week") {
+          renderWeek()
+          return
+        }
+
+        renderDay()
+      }
+
+      function renderMonth() {
+        const weekdayRow = document.createElement("div")
+        weekdayRow.className = "weekday-row"
+        weekdayNames.forEach((day) => {
+          const item = document.createElement("div")
+          item.textContent = day
+          weekdayRow.appendChild(item)
+        })
+
+        const grid = document.createElement("div")
+        grid.className = "month-grid"
+
+        const firstOfMonth = new Date(
+          state.displayDate.getFullYear(),
+          state.displayDate.getMonth(),
+          1,
+        )
+        const gridStart = new Date(firstOfMonth)
+        gridStart.setDate(firstOfMonth.getDate() - firstOfMonth.getDay())
+
+        for (let index = 0; index < 35; index += 1) {
+          const date = new Date(gridStart)
+          date.setDate(gridStart.getDate() + index)
+
+          const cell = document.createElement("div")
+          cell.className = "day-cell"
+
+          const button = document.createElement("button")
+          button.type = "button"
+          button.className = "day-button"
+          button.textContent = date.getDate()
+
+          const isCurrentMonth = date.getMonth() === state.displayDate.getMonth()
+          const selected = state.selectedDates.has(toKey(date))
+          const today = isSameDate(date, new Date())
+
+          button.classList.add(isCurrentMonth ? "current-month" : "outside")
+          if (selected && isCurrentMonth) button.classList.add("selected")
+          if (today && isCurrentMonth) button.classList.add("today-ring")
+
+          button.addEventListener("click", () => {
+            state.activeDate = new Date(date)
+            toggleSelected(date)
+            render()
+          })
+
+          cell.appendChild(button)
+          grid.appendChild(cell)
+        }
+
+        calendarContent.appendChild(weekdayRow)
+        calendarContent.appendChild(grid)
+      }
+
+      function renderWeek() {
+        const weekGrid = document.createElement("div")
+        weekGrid.className = "week-grid"
+
+        const start = startOfWeek(state.activeDate)
+
+        for (let index = 0; index < 7; index += 1) {
+          const date = new Date(start)
+          date.setDate(start.getDate() + index)
+
+          const card = document.createElement("button")
+          card.type = "button"
+          card.className = "week-card"
+
+          const selected = state.selectedDates.has(toKey(date))
+          if (selected) card.classList.add("selected")
+          if (isSameDate(date, state.activeDate)) card.classList.add("active")
+
+          card.innerHTML = `
+            <strong>${weekdayNames[date.getDay()]}</strong>
+            <span>${monthNames[date.getMonth()].slice(0, 3)} ${date.getFullYear()}</span>
+            <div class="week-date">${date.getDate()}</div>
+          `
+
+          card.addEventListener("click", () => {
+            state.activeDate = new Date(date)
+            state.displayDate = new Date(date.getFullYear(), date.getMonth(), 1)
+            toggleSelected(date)
+            render()
+          })
+
+          weekGrid.appendChild(card)
+        }
+
+        calendarContent.appendChild(weekGrid)
+      }
+
+      function renderDay() {
+        const wrap = document.createElement("div")
+        wrap.className = "day-view"
+
+        const selected = state.selectedDates.has(toKey(state.activeDate))
+        const panel = document.createElement("div")
+        panel.className = `day-panel${selected ? " selected" : ""}`
+
+        panel.innerHTML = `
+          <strong>${weekdayNames[state.activeDate.getDay()]}</strong>
+          <span>${monthNames[state.activeDate.getMonth()]} ${state.activeDate.getDate()}, ${state.activeDate.getFullYear()}</span>
+          <div class="big-date">${state.activeDate.getDate()}</div>
+          <button class="toggle-button" type="button">
+            ${selected ? "Selected" : "Select This Day"}
+          </button>
+        `
+
+        panel.querySelector(".toggle-button").addEventListener("click", () => {
+          toggleSelected(state.activeDate)
+          render()
+        })
+
+        wrap.appendChild(panel)
+        calendarContent.appendChild(wrap)
+      }
+
+      function toggleSelected(date) {
+        const key = toKey(date)
+        if (state.selectedDates.has(key)) {
+          state.selectedDates.delete(key)
+          return
+        }
+        state.selectedDates.add(key)
+      }
+
+      function getRangeLabel() {
+        if (state.view === "month") {
+          return `${monthNames[state.displayDate.getMonth()]} ${state.displayDate.getFullYear()}`
+        }
+
+        if (state.view === "week") {
+          const start = startOfWeek(state.activeDate)
+          const end = new Date(start)
+          end.setDate(start.getDate() + 6)
+          return `${monthNames[start.getMonth()].slice(0, 3)} ${start.getDate()} - ${
+            monthNames[end.getMonth()].slice(0, 3)
+          } ${end.getDate()}, ${end.getFullYear()}`
+        }
+
+        return `${monthNames[state.activeDate.getMonth()]} ${state.activeDate.getDate()}, ${state.activeDate.getFullYear()}`
+      }
+
+      function startOfWeek(date) {
+        const start = new Date(date)
+        start.setDate(date.getDate() - date.getDay())
+        return start
+      }
+
+      function daysInMonth(date) {
+        return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate()
+      }
+
+      function isSameDate(first, second) {
+        return (
+          first.getFullYear() === second.getFullYear() &&
+          first.getMonth() === second.getMonth() &&
+          first.getDate() === second.getDate()
+        )
+      }
+
+      function toKey(date) {
+        const year = date.getFullYear()
+        const month = `${date.getMonth() + 1}`.padStart(2, "0")
+        const day = `${date.getDate()}`.padStart(2, "0")
+        return `${year}-${month}-${day}`
+      }
+
+      setupControls()
+      render()
+    </script>
+  </body>
+</html>

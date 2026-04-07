@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Monthly Schedule Calendar</title>
+    <style>
+      :root {
+        --bg: #f6f7f6;
+        --card: #ffffff;
+        --line: #e4e7e5;
+        --text: #202827;
+        --muted: #7b8380;
+        --green: #0f7a59;
+        --purple: #5d3b99;
+        --red: #de3a31;
+        --dark-green: #2f8a43;
+        --gray-dot: #bdbfbe;
+        --shadow: 0 18px 36px rgba(44, 57, 53, 0.08);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: linear-gradient(180deg, #fbfbfb 0%, #f2f4f3 100%);
+        font-family: Inter, "Segoe UI", sans-serif;
+        color: var(--text);
+        display: grid;
+        place-items: center;
+        padding: 28px;
+      }
+
+      .schedule-shell {
+        width: min(100%, 860px);
+        background: #f7f7f7;
+        border: 1px solid #eceeed;
+        border-radius: 16px;
+        box-shadow: var(--shadow);
+        padding: 18px 18px 14px;
+      }
+
+      .schedule-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 14px;
+      }
+
+      .schedule-title {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .schedule-title h1 {
+        margin: 0;
+        font-size: 14px;
+        font-weight: 600;
+      }
+
+      .doctor-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--green);
+        font-weight: 500;
+      }
+
+      .doctor-avatar {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background:
+          radial-gradient(circle at 50% 34%, #f3d1bf 22%, transparent 23%),
+          radial-gradient(circle at 50% 88%, #29455f 42%, transparent 43%),
+          linear-gradient(180deg, #293a50 0%, #16212c 100%);
+      }
+
+      .override-note {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        margin-left: 8px;
+        font-size: 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+      }
+
+      .override-note .info {
+        width: 14px;
+        height: 14px;
+        border-radius: 999px;
+        background: var(--green);
+        color: white;
+        display: inline-grid;
+        place-items: center;
+        font-size: 10px;
+      }
+
+      .tooltip {
+        position: absolute;
+        left: 86px;
+        top: -52px;
+        width: 238px;
+        padding: 10px 12px;
+        border-radius: 6px;
+        background: #2f2f2f;
+        color: white;
+        font-size: 11px;
+        line-height: 1.35;
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
+      }
+
+      .tooltip::after {
+        content: "";
+        position: absolute;
+        left: 26px;
+        bottom: -6px;
+        width: 12px;
+        height: 12px;
+        background: #2f2f2f;
+        transform: rotate(45deg);
+      }
+
+      .view-toggle {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .toggle-button {
+        height: 30px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: white;
+        color: #52625e;
+        padding: 0 14px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 12px;
+        cursor: pointer;
+      }
+
+      .toggle-button.active {
+        background: var(--green);
+        border-color: var(--green);
+        color: white;
+      }
+
+      .toggle-icon {
+        font-size: 12px;
+      }
+
+      .calendar-card {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        overflow: hidden;
+      }
+
+      .calendar-toolbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 10px 12px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .toolbar-left,
+      .toolbar-right,
+      .month-controls {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .nav-button {
+        width: 24px;
+        height: 24px;
+        border: 0;
+        border-radius: 6px;
+        background: transparent;
+        color: #566764;
+        cursor: pointer;
+        font-size: 18px;
+        line-height: 1;
+      }
+
+      .nav-button:hover {
+        background: #f4f6f5;
+      }
+
+      .month-select,
+      .year-select {
+        border: 0;
+        background: transparent;
+        font: inherit;
+        color: #273330;
+        font-size: 13px;
+        font-weight: 600;
+        outline: none;
+        cursor: pointer;
+      }
+
+      .timezone-label {
+        font-size: 11px;
+        color: #5f6f6b;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .timezone-label .clock {
+        font-size: 13px;
+      }
+
+      .weekday-row,
+      .calendar-grid {
+        display: grid;
+        grid-template-columns: repeat(7, minmax(0, 1fr));
+      }
+
+      .weekday-row {
+        border-bottom: 1px solid var(--line);
+        background: #fcfcfc;
+      }
+
+      .weekday-row div {
+        padding: 11px 6px;
+        text-align: center;
+        font-size: 11px;
+        color: #626d69;
+        border-right: 1px solid var(--line);
+      }
+
+      .weekday-row div:last-child {
+        border-right: 0;
+      }
+
+      .day-cell {
+        min-height: 86px;
+        border-right: 1px solid var(--line);
+        border-bottom: 1px solid var(--line);
+        padding: 8px 8px 10px;
+        position: relative;
+        background: white;
+        cursor: pointer;
+      }
+
+      .day-cell:nth-child(7n) {
+        border-right: 0;
+      }
+
+      .day-cell.selected {
+        background: #ecf8f2;
+        box-shadow: inset 0 0 0 1px #4eae86;
+      }
+
+      .day-cell.outside {
+        color: #afb7b4;
+      }
+
+      .day-cell.today {
+        background: #fff9e6;
+      }
+
+      .day-number-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+      }
+
+      .day-number {
+        font-size: 12px;
+        font-weight: 500;
+      }
+
+      .day-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 999px;
+        background: var(--gray-dot);
+        flex: none;
+      }
+
+      .day-dot.purple {
+        background: var(--purple);
+      }
+
+      .day-label {
+        margin-top: 10px;
+        font-size: 11px;
+        color: var(--muted);
+      }
+
+      .schedule-pill {
+        margin-top: 8px;
+        border-radius: 2px;
+        padding: 3px 7px;
+        font-size: 10px;
+        line-height: 1.25;
+        color: white;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .schedule-pill.purple {
+        background: var(--purple);
+      }
+
+      .schedule-pill.red {
+        background: var(--red);
+      }
+
+      .schedule-pill.green {
+        background: var(--dark-green);
+      }
+
+      .action-popover {
+        position: absolute;
+        left: 78%;
+        top: 54px;
+        transform: translateX(-50%);
+        width: 116px;
+        border: 1px solid #d8e2dd;
+        border-radius: 6px;
+        background: white;
+        box-shadow: 0 14px 28px rgba(40, 55, 50, 0.14);
+        z-index: 3;
+        overflow: hidden;
+      }
+
+      .action-popover button {
+        width: 100%;
+        border: 0;
+        background: white;
+        text-align: left;
+        padding: 9px 10px;
+        font-size: 11px;
+        color: #394946;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .action-popover button + button {
+        border-top: 1px solid #edf2ef;
+      }
+
+      .action-popover button:hover {
+        background: #f5faf7;
+      }
+
+      .legend {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 18px;
+        padding: 12px 8px 2px;
+        font-size: 11px;
+        color: #5f6a67;
+      }
+
+      .legend-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .legend-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 999px;
+      }
+
+      .legend-dot.purple {
+        background: var(--purple);
+      }
+
+      .legend-dot.red {
+        background: var(--red);
+      }
+
+      .legend-dot.green {
+        background: var(--dark-green);
+      }
+
+      .legend-dot.gray {
+        background: var(--gray-dot);
+      }
+
+      @media (max-width: 820px) {
+        body {
+          padding: 14px;
+        }
+
+        .schedule-header,
+        .calendar-toolbar {
+          flex-wrap: wrap;
+        }
+
+        .tooltip {
+          display: none;
+        }
+
+        .day-cell {
+          min-height: 98px;
+        }
+
+        .action-popover {
+          left: 50%;
+          top: 58px;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .schedule-shell {
+          padding: 12px;
+        }
+
+        .calendar-card {
+          overflow-x: auto;
+        }
+
+        .weekday-row,
+        .calendar-grid {
+          min-width: 720px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <section class="schedule-shell">
+      <div class="schedule-header">
+        <div class="schedule-title">
+          <h1>Schedule of</h1>
+          <div class="doctor-chip">
+            <div class="doctor-avatar" aria-hidden="true"></div>
+            <span>Dr. Jhon Smith</span>
+          </div>
+          <div class="override-note">
+            <span>OVERRIDE HOURS FOR SPECIFIC DAYS</span>
+            <span class="info">i</span>
+            <div class="tooltip">
+              This is monthly scheduling. Select specific dates to set, change or override the
+              hours.
+            </div>
+          </div>
+        </div>
+
+        <div class="view-toggle">
+          <button class="toggle-button" type="button">
+            <span class="toggle-icon">&#9783;</span>
+            <span>List</span>
+          </button>
+          <button class="toggle-button active" type="button">
+            <span class="toggle-icon">&#128197;</span>
+            <span>Calendar</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="calendar-card">
+        <div class="calendar-toolbar">
+          <div class="toolbar-left">
+            <button class="nav-button" id="prevMonth" type="button" aria-label="Previous month">
+              &#8249;
+            </button>
+            <div class="month-controls">
+              <select class="month-select" id="monthSelect" aria-label="Month"></select>
+              <select class="year-select" id="yearSelect" aria-label="Year"></select>
+            </div>
+            <button class="nav-button" id="nextMonth" type="button" aria-label="Next month">
+              &#8250;
+            </button>
+          </div>
+
+          <div class="toolbar-right">
+            <div class="timezone-label">
+              <span class="clock">&#9716;</span>
+              <span id="timezoneText">UK Standard time (2:26 pm)</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="weekday-row" id="weekdayRow"></div>
+        <div class="calendar-grid" id="calendarGrid"></div>
+      </div>
+
+      <div class="legend">
+        <span class="legend-item"><span class="legend-dot purple"></span>OPD Consultation</span>
+        <span class="legend-item"><span class="legend-dot red"></span>Theater/Surgery</span>
+        <span class="legend-item"><span class="legend-dot green"></span>Video consultation</span>
+        <span class="legend-item"><span class="legend-dot gray"></span>Day off</span>
+      </div>
+    </section>
+
+    <script>
+      const monthNames = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+      ]
+
+      const weekNames = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"]
+      const monthSelect = document.getElementById("monthSelect")
+      const yearSelect = document.getElementById("yearSelect")
+      const prevMonth = document.getElementById("prevMonth")
+      const nextMonth = document.getElementById("nextMonth")
+      const weekdayRow = document.getElementById("weekdayRow")
+      const calendarGrid = document.getElementById("calendarGrid")
+      const timezoneText = document.getElementById("timezoneText")
+
+      const state = {
+        displayDate: new Date(2026, 2, 1),
+        selectedDateKey: "2026-03-30",
+      }
+
+      function init() {
+        weekNames.forEach((name) => {
+          const cell = document.createElement("div")
+          cell.textContent = name
+          weekdayRow.appendChild(cell)
+        })
+
+        monthNames.forEach((name, index) => {
+          const option = document.createElement("option")
+          option.value = index
+          option.textContent = name
+          monthSelect.appendChild(option)
+        })
+
+        for (let year = 2023; year <= 2035; year += 1) {
+          const option = document.createElement("option")
+          option.value = year
+          option.textContent = year
+          yearSelect.appendChild(option)
+        }
+
+        const now = new Date()
+        timezoneText.textContent = `UK Standard time (${formatTime(now)})`
+
+        monthSelect.addEventListener("change", () => {
+          state.displayDate = new Date(Number(yearSelect.value), Number(monthSelect.value), 1)
+          render()
+        })
+
+        yearSelect.addEventListener("change", () => {
+          state.displayDate = new Date(Number(yearSelect.value), Number(monthSelect.value), 1)
+          render()
+        })
+
+        prevMonth.addEventListener("click", () => {
+          state.displayDate = new Date(
+            state.displayDate.getFullYear(),
+            state.displayDate.getMonth() - 1,
+            1,
+          )
+          render()
+        })
+
+        nextMonth.addEventListener("click", () => {
+          state.displayDate = new Date(
+            state.displayDate.getFullYear(),
+            state.displayDate.getMonth() + 1,
+            1,
+          )
+          render()
+        })
+
+        render()
+      }
+
+      function render() {
+        monthSelect.value = state.displayDate.getMonth()
+        yearSelect.value = state.displayDate.getFullYear()
+        calendarGrid.innerHTML = ""
+
+        const firstDay = new Date(state.displayDate.getFullYear(), state.displayDate.getMonth(), 1)
+        const start = new Date(firstDay)
+        start.setDate(firstDay.getDate() - firstDay.getDay())
+
+        for (let index = 0; index < 35; index += 1) {
+          const current = new Date(start)
+          current.setDate(start.getDate() + index)
+          calendarGrid.appendChild(createDayCell(current))
+        }
+      }
+
+      function createDayCell(date) {
+        const cell = document.createElement("div")
+        const key = toKey(date)
+        const inMonth = date.getMonth() === state.displayDate.getMonth()
+        const isToday = isSameDate(date, new Date())
+        const isSelected = key === state.selectedDateKey
+        const schedules = getSchedulesForDate(date)
+
+        cell.className = "day-cell"
+        if (!inMonth) cell.classList.add("outside")
+        if (isToday) cell.classList.add("today")
+        if (isSelected) cell.classList.add("selected")
+
+        const dotClass = schedules.length === 0 ? "day-dot" : `day-dot ${schedules[0].tone}`
+        const label =
+          schedules.length === 0
+            ? "Day Off"
+            : ""
+
+        cell.innerHTML = `
+          <div class="day-number-row">
+            <span class="day-number">${getCellLabel(date, inMonth)}</span>
+            <span class="${dotClass}"></span>
+          </div>
+          ${label ? `<div class="day-label">${label}</div>` : ""}
+          ${schedules
+            .map(
+              (item) =>
+                `<div class="schedule-pill ${item.tone}" title="${item.text}">${item.text}</div>`,
+            )
+            .join("")}
+          ${
+            isSelected
+              ? `<div class="action-popover">
+                  <button type="button"><span>&#128197;</span><span>Schedule details</span></button>
+                  <button type="button"><span>&#9998;</span><span>Edit Schedule</span></button>
+                </div>`
+              : ""
+          }
+        `
+
+        cell.addEventListener("click", () => {
+          state.selectedDateKey = key
+          render()
+        })
+
+        return cell
+      }
+
+      function getSchedulesForDate(date) {
+        if (date.getMonth() !== state.displayDate.getMonth()) {
+          return []
+        }
+
+        const day = date.getDate()
+        const weekday = date.getDay()
+        const entries = []
+
+        if ([1, 3].includes(weekday)) {
+          entries.push({
+            tone: "purple",
+            text: "7:35AM-9:00PM Medi..",
+          })
+        }
+
+        if ([2, 4].includes(weekday) && day % 2 === 1) {
+          entries.push({
+            tone: "red",
+            text: "9:00am - 5:00pm Me..",
+          })
+        }
+
+        if (weekday === 4 && day > 15) {
+          entries.push({
+            tone: "green",
+            text: "2:00PM-7:00PM Phar..",
+          })
+        }
+
+        if (weekday === 5 && day % 2 === 0) {
+          entries.push({
+            tone: "red",
+            text: "9:00am - 5:00pm Me..",
+          })
+        }
+
+        if (weekday === 6 && day <= 20) {
+          entries.push({
+            tone: "purple",
+            text: "9:00am - 5:00pm Me..",
+          })
+        }
+
+        return entries.slice(0, 2)
+      }
+
+      function getCellLabel(date, inMonth) {
+        if (inMonth) {
+          return date.getDate()
+        }
+
+        if (date.getDate() === 1) {
+          return `${monthNames[date.getMonth()].slice(0, 3)}1`
+        }
+
+        return date.getDate()
+      }
+
+      function toKey(date) {
+        const year = date.getFullYear()
+        const month = `${date.getMonth() + 1}`.padStart(2, "0")
+        const day = `${date.getDate()}`.padStart(2, "0")
+        return `${year}-${month}-${day}`
+      }
+
+      function isSameDate(first, second) {
+        return (
+          first.getFullYear() === second.getFullYear() &&
+          first.getMonth() === second.getMonth() &&
+          first.getDate() === second.getDate()
+        )
+      }
+
+      function formatTime(date) {
+        return date
+          .toLocaleTimeString("en-GB", {
+            hour: "numeric",
+            minute: "2-digit",
+            hour12: true,
+          })
+          .toLowerCase()
+      }
+
+      init()
+    </script>
+  </body>
+</html>
