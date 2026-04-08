@@ -3,6 +3,7 @@ import CalendarMonthRoundedIcon from '@mui/icons-material/CalendarMonthRounded'
 import MedicalServicesRoundedIcon from '@mui/icons-material/MedicalServicesRounded'
 import TaskAltRoundedIcon from '@mui/icons-material/TaskAltRounded'
 import ViewWeekRoundedIcon from '@mui/icons-material/ViewWeekRounded'
+import EventNoteRoundedIcon from '@mui/icons-material/EventNoteRounded'
 import ArrowForwardRoundedIcon from '@mui/icons-material/ArrowForwardRounded'
 import { Link } from 'react-router-dom'
 
@@ -20,6 +21,13 @@ const pages = [
       'A separate route for the monthly scheduling layout with colored schedule bars and day actions.',
     to: '/monthly-schedule',
     icon: <ViewWeekRoundedIcon sx={{ fontSize: 26 }} />,
+  },
+  {
+    title: 'Detailed Monthly Schedule',
+    description:
+      'A denser monthly doctor schedule board with detailed daily cards, day-off states, month switching, and actions popover.',
+    to: '/monthly-schedule-detailed',
+    icon: <EventNoteRoundedIcon sx={{ fontSize: 26 }} />,
   },
   {
     title: 'Review & Publish',

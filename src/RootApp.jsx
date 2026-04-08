@@ -4,9 +4,11 @@ import HomeRoundedIcon from '@mui/icons-material/HomeRounded'
 import MedicalServicesRoundedIcon from '@mui/icons-material/MedicalServicesRounded'
 import TaskAltRoundedIcon from '@mui/icons-material/TaskAltRounded'
 import ViewWeekRoundedIcon from '@mui/icons-material/ViewWeekRounded'
+import EventNoteRoundedIcon from '@mui/icons-material/EventNoteRounded'
 import { Link, Route, Routes, useLocation } from 'react-router-dom'
 import HomePage from './pages/HomePage.jsx'
 import AvailabilityCalendarPage from './pages/AvailabilityCalendarPage.jsx'
+import DetailedMonthlySchedulePage from './pages/DetailedMonthlySchedulePage.jsx'
 import MonthlySchedulePage from './pages/MonthlySchedulePage.jsx'
 import ReviewPublishPage from './pages/ReviewPublishPage.jsx'
 import StaffAvailabilitySetupPage from './pages/StaffAvailabilitySetupPage.jsx'
@@ -69,6 +71,12 @@ function RootApp() {
                 label="Monthly Schedule"
               />
               <NavButton
+                active={location.pathname === '/monthly-schedule-detailed'}
+                to="/monthly-schedule-detailed"
+                icon={<EventNoteRoundedIcon sx={{ fontSize: 18 }} />}
+                label="Detailed Schedule"
+              />
+              <NavButton
                 active={location.pathname === '/review-publish'}
                 to="/review-publish"
                 icon={<TaskAltRoundedIcon sx={{ fontSize: 18 }} />}
@@ -89,6 +97,7 @@ function RootApp() {
             <Route path="/" element={<HomePage />} />
             <Route path="/availability-calendar" element={<AvailabilityCalendarPage />} />
             <Route path="/monthly-schedule" element={<MonthlySchedulePage />} />
+            <Route path="/monthly-schedule-detailed" element={<DetailedMonthlySchedulePage />} />
             <Route path="/review-publish" element={<ReviewPublishPage />} />
             <Route path="/staff-availability-setup" element={<StaffAvailabilitySetupPage />} />
           </Routes>
