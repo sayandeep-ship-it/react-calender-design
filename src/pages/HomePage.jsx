@@ -51,6 +51,13 @@ const pages = [
     to: '/schedule-board',
     icon: <ViewTimelineRoundedIcon sx={{ fontSize: 26 }} />,
   },
+  {
+    title: 'Schedule Overlays',
+    description:
+      'A dedicated route with two launch buttons that open the monthly calendar edit sidebar and the specific-dates selection modal.',
+    to: '/schedule-overlays',
+    icon: <EventNoteRoundedIcon sx={{ fontSize: 26 }} />,
+  },
 ]
 
 function HomePage() {
