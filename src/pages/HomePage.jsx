@@ -5,6 +5,7 @@ import TaskAltRoundedIcon from '@mui/icons-material/TaskAltRounded'
 import ViewWeekRoundedIcon from '@mui/icons-material/ViewWeekRounded'
 import EventNoteRoundedIcon from '@mui/icons-material/EventNoteRounded'
 import ArrowForwardRoundedIcon from '@mui/icons-material/ArrowForwardRounded'
+import ViewTimelineRoundedIcon from '@mui/icons-material/ViewTimelineRounded'
 import { Link } from 'react-router-dom'
 
 const pages = [
@@ -42,6 +43,13 @@ const pages = [
       'JSON-driven schedule editor with time pickers, schedule type, location, procedure, add/delete, duplicate, and copy-to-dates actions.',
     to: '/staff-availability-setup',
     icon: <MedicalServicesRoundedIcon sx={{ fontSize: 26 }} />,
+  },
+  {
+    title: 'Schedule Board',
+    description:
+      'SCSS + MUI schedule board inspired by the management screenshot, with day, week, and month views plus doctor-row highlighting.',
+    to: '/schedule-board',
+    icon: <ViewTimelineRoundedIcon sx={{ fontSize: 26 }} />,
   },
 ]
 
