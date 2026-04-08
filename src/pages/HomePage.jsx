@@ -58,6 +58,13 @@ const pages = [
     to: '/schedule-overlays',
     icon: <EventNoteRoundedIcon sx={{ fontSize: 26 }} />,
   },
+  {
+    title: 'Preview List View',
+    description:
+      'A list-first schedule preview page with grouped day rows, active list/calendar toggle, and per-row edit drawer actions.',
+    to: '/preview-list-view',
+    icon: <ViewWeekRoundedIcon sx={{ fontSize: 26 }} />,
+  },
 ]
 
 function HomePage() {

@@ -11,6 +11,7 @@ import HomePage from './pages/HomePage.jsx'
 import AvailabilityCalendarPage from './pages/AvailabilityCalendarPage.jsx'
 import DetailedMonthlySchedulePage from './pages/DetailedMonthlySchedulePage.jsx'
 import MonthlySchedulePage from './pages/MonthlySchedulePage.jsx'
+import PreviewListViewPage from './pages/PreviewListViewPage.jsx'
 import ReviewPublishPage from './pages/ReviewPublishPage.jsx'
 import ScheduleBoardPage from './pages/ScheduleBoardPage.jsx'
 import ScheduleOverlayDemoPage from './pages/ScheduleOverlayDemoPage.jsx'
@@ -103,6 +104,12 @@ function RootApp() {
                 icon={<EventNoteRoundedIcon sx={{ fontSize: 18 }} />}
                 label="Overlays"
               />
+              <NavButton
+                active={location.pathname === '/preview-list-view'}
+                to="/preview-list-view"
+                icon={<ViewWeekRoundedIcon sx={{ fontSize: 18 }} />}
+                label="Preview List"
+              />
             </Stack>
           </Toolbar>
         </AppBar>
@@ -113,6 +120,7 @@ function RootApp() {
             <Route path="/availability-calendar" element={<AvailabilityCalendarPage />} />
             <Route path="/monthly-schedule" element={<MonthlySchedulePage />} />
             <Route path="/monthly-schedule-detailed" element={<DetailedMonthlySchedulePage />} />
+            <Route path="/preview-list-view" element={<PreviewListViewPage />} />
             <Route path="/review-publish" element={<ReviewPublishPage />} />
             <Route path="/schedule-board" element={<ScheduleBoardPage />} />
             <Route path="/schedule-overlays" element={<ScheduleOverlayDemoPage />} />
