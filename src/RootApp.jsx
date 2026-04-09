@@ -13,6 +13,7 @@ import DetailedMonthlySchedulePage from './pages/DetailedMonthlySchedulePage.jsx
 import MonthlySchedulePage from './pages/MonthlySchedulePage.jsx'
 import PreviewListViewPage from './pages/PreviewListViewPage.jsx'
 import ReviewPublishPage from './pages/ReviewPublishPage.jsx'
+import ReviewPublishPayloadPage from './pages/ReviewPublishPayloadPage.jsx'
 import ScheduleBoardPage from './pages/ScheduleBoardPage.jsx'
 import ScheduleOverlayDemoPage from './pages/ScheduleOverlayDemoPage.jsx'
 import StaffAvailabilitySetupPage from './pages/StaffAvailabilitySetupPage.jsx'
@@ -110,6 +111,12 @@ function RootApp() {
                 icon={<ViewWeekRoundedIcon sx={{ fontSize: 18 }} />}
                 label="Preview List"
               />
+              <NavButton
+                active={location.pathname === '/review-publish-payload'}
+                to="/review-publish-payload"
+                icon={<TaskAltRoundedIcon sx={{ fontSize: 18 }} />}
+                label="Payload Review"
+              />
             </Stack>
           </Toolbar>
         </AppBar>
@@ -122,6 +129,7 @@ function RootApp() {
             <Route path="/monthly-schedule-detailed" element={<DetailedMonthlySchedulePage />} />
             <Route path="/preview-list-view" element={<PreviewListViewPage />} />
             <Route path="/review-publish" element={<ReviewPublishPage />} />
+            <Route path="/review-publish-payload" element={<ReviewPublishPayloadPage />} />
             <Route path="/schedule-board" element={<ScheduleBoardPage />} />
             <Route path="/schedule-overlays" element={<ScheduleOverlayDemoPage />} />
             <Route path="/staff-availability-setup" element={<StaffAvailabilitySetupPage />} />

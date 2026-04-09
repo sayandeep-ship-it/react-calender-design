@@ -65,6 +65,13 @@ const pages = [
     to: '/preview-list-view',
     icon: <ViewWeekRoundedIcon sx={{ fontSize: 26 }} />,
   },
+  {
+    title: 'Payload Review Publish',
+    description:
+      'A review-and-publish page that maps real calendar API response data into the monthly dot calendar and summary cards.',
+    to: '/review-publish-payload',
+    icon: <TaskAltRoundedIcon sx={{ fontSize: 26 }} />,
+  },
 ]
 
 function HomePage() {
