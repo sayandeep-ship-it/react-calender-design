@@ -17,6 +17,7 @@ import ReviewPublishPayloadPage from './pages/ReviewPublishPayloadPage.jsx'
 import ScheduleBoardPage from './pages/ScheduleBoardPage.jsx'
 import ScheduleOverlayDemoPage from './pages/ScheduleOverlayDemoPage.jsx'
 import StaffAvailabilitySetupPage from './pages/StaffAvailabilitySetupPage.jsx'
+import StatusRulesDesignPage from './pages/StatusRulesDesignPage.jsx'
 
 function RootApp() {
   const location = useLocation()
@@ -117,6 +118,12 @@ function RootApp() {
                 icon={<TaskAltRoundedIcon sx={{ fontSize: 18 }} />}
                 label="Payload Review"
               />
+              <NavButton
+                active={location.pathname === '/status-rules-design'}
+                to="/status-rules-design"
+                icon={<MedicalServicesRoundedIcon sx={{ fontSize: 18 }} />}
+                label="Status Rules"
+              />
             </Stack>
           </Toolbar>
         </AppBar>
@@ -133,6 +140,7 @@ function RootApp() {
             <Route path="/schedule-board" element={<ScheduleBoardPage />} />
             <Route path="/schedule-overlays" element={<ScheduleOverlayDemoPage />} />
             <Route path="/staff-availability-setup" element={<StaffAvailabilitySetupPage />} />
+            <Route path="/status-rules-design" element={<StatusRulesDesignPage />} />
           </Routes>
         </Container>
       </Box>

@@ -72,6 +72,13 @@ const pages = [
     to: '/review-publish-payload',
     icon: <TaskAltRoundedIcon sx={{ fontSize: 26 }} />,
   },
+  {
+    title: 'Status Rules Design',
+    description:
+      'A dedicated status-rules screen for reusable equipment with available-for options, mandatory toggle, and quantity selector.',
+    to: '/status-rules-design',
+    icon: <MedicalServicesRoundedIcon sx={{ fontSize: 26 }} />,
+  },
 ]
 
 function HomePage() {
