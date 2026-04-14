@@ -79,6 +79,13 @@ const pages = [
     to: '/status-rules-design',
     icon: <MedicalServicesRoundedIcon sx={{ fontSize: 26 }} />,
   },
+  {
+    title: 'Resource Availability Board',
+    description:
+      'A day-based availability board with date navigation, filters, and color-coded equipment, facility, and staff states.',
+    to: '/resource-availability-board',
+    icon: <CalendarMonthRoundedIcon sx={{ fontSize: 26 }} />,
+  },
 ]
 
 function HomePage() {

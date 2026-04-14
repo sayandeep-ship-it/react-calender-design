@@ -12,6 +12,7 @@ import AvailabilityCalendarPage from './pages/AvailabilityCalendarPage.jsx'
 import DetailedMonthlySchedulePage from './pages/DetailedMonthlySchedulePage.jsx'
 import MonthlySchedulePage from './pages/MonthlySchedulePage.jsx'
 import PreviewListViewPage from './pages/PreviewListViewPage.jsx'
+import ResourceAvailabilityBoardPage from './pages/ResourceAvailabilityBoardPage.jsx'
 import ReviewPublishPage from './pages/ReviewPublishPage.jsx'
 import ReviewPublishPayloadPage from './pages/ReviewPublishPayloadPage.jsx'
 import ScheduleBoardPage from './pages/ScheduleBoardPage.jsx'
@@ -124,6 +125,12 @@ function RootApp() {
                 icon={<MedicalServicesRoundedIcon sx={{ fontSize: 18 }} />}
                 label="Status Rules"
               />
+              <NavButton
+                active={location.pathname === '/resource-availability-board'}
+                to="/resource-availability-board"
+                icon={<CalendarMonthRoundedIcon sx={{ fontSize: 18 }} />}
+                label="Resource Board"
+              />
             </Stack>
           </Toolbar>
         </AppBar>
@@ -135,6 +142,7 @@ function RootApp() {
             <Route path="/monthly-schedule" element={<MonthlySchedulePage />} />
             <Route path="/monthly-schedule-detailed" element={<DetailedMonthlySchedulePage />} />
             <Route path="/preview-list-view" element={<PreviewListViewPage />} />
+            <Route path="/resource-availability-board" element={<ResourceAvailabilityBoardPage />} />
             <Route path="/review-publish" element={<ReviewPublishPage />} />
             <Route path="/review-publish-payload" element={<ReviewPublishPayloadPage />} />
             <Route path="/schedule-board" element={<ScheduleBoardPage />} />
