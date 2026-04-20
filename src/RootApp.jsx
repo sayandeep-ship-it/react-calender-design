@@ -9,6 +9,7 @@ import ViewTimelineRoundedIcon from '@mui/icons-material/ViewTimelineRounded'
 import { Link, Route, Routes, useLocation } from 'react-router-dom'
 import HomePage from './pages/HomePage.jsx'
 import AvailabilityCalendarPage from './pages/AvailabilityCalendarPage.jsx'
+import AppointmentsPreviewPage from './pages/AppointmentsPreviewPage.jsx'
 import DetailedMonthlySchedulePage from './pages/DetailedMonthlySchedulePage.jsx'
 import MonthlySchedulePage from './pages/MonthlySchedulePage.jsx'
 import PreviewListViewPage from './pages/PreviewListViewPage.jsx'
@@ -131,6 +132,12 @@ function RootApp() {
                 icon={<CalendarMonthRoundedIcon sx={{ fontSize: 18 }} />}
                 label="Resource Board"
               />
+              <NavButton
+                active={location.pathname === '/appointments-preview'}
+                to="/appointments-preview"
+                icon={<EventNoteRoundedIcon sx={{ fontSize: 18 }} />}
+                label="Appointments"
+              />
             </Stack>
           </Toolbar>
         </AppBar>
@@ -139,6 +146,7 @@ function RootApp() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/availability-calendar" element={<AvailabilityCalendarPage />} />
+            <Route path="/appointments-preview" element={<AppointmentsPreviewPage />} />
             <Route path="/monthly-schedule" element={<MonthlySchedulePage />} />
             <Route path="/monthly-schedule-detailed" element={<DetailedMonthlySchedulePage />} />
             <Route path="/preview-list-view" element={<PreviewListViewPage />} />

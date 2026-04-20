@@ -86,6 +86,13 @@ const pages = [
     to: '/resource-availability-board',
     icon: <CalendarMonthRoundedIcon sx={{ fontSize: 26 }} />,
   },
+  {
+    title: 'Appointments Preview',
+    description:
+      'A grouped appointments feed with date sections, patient cards, doctor details, treatment pills, and status chips.',
+    to: '/appointments-preview',
+    icon: <EventNoteRoundedIcon sx={{ fontSize: 26 }} />,
+  },
 ]
 
 function HomePage() {
