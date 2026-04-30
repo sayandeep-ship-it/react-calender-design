@@ -87,6 +87,13 @@ const pages = [
     icon: <CalendarMonthRoundedIcon sx={{ fontSize: 26 }} />,
   },
   {
+    title: 'Resource Consolidated Calendar',
+    description:
+      'A month view that overlays ResourceSchedule availability, facility/equipment blocked assignments, and staff rota events.',
+    to: '/resource-consolidated-calendar',
+    icon: <CalendarMonthRoundedIcon sx={{ fontSize: 26 }} />,
+  },
+  {
     title: 'Appointments Preview',
     description:
       'A grouped appointments feed with date sections, patient cards, doctor details, treatment pills, and status chips.',

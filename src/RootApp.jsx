@@ -14,6 +14,7 @@ import DetailedMonthlySchedulePage from './pages/DetailedMonthlySchedulePage.jsx
 import MonthlySchedulePage from './pages/MonthlySchedulePage.jsx'
 import PreviewListViewPage from './pages/PreviewListViewPage.jsx'
 import ResourceAvailabilityBoardPage from './pages/ResourceAvailabilityBoardPage.jsx'
+import ResourceConsolidatedCalendarPage from './pages/ResourceConsolidatedCalendarPage.jsx'
 import ReviewPublishPage from './pages/ReviewPublishPage.jsx'
 import ReviewPublishPayloadPage from './pages/ReviewPublishPayloadPage.jsx'
 import ScheduleBoardPage from './pages/ScheduleBoardPage.jsx'
@@ -133,6 +134,12 @@ function RootApp() {
                 label="Resource Board"
               />
               <NavButton
+                active={location.pathname === '/resource-consolidated-calendar'}
+                to="/resource-consolidated-calendar"
+                icon={<CalendarMonthRoundedIcon sx={{ fontSize: 18 }} />}
+                label="Resource Calendar"
+              />
+              <NavButton
                 active={location.pathname === '/appointments-preview'}
                 to="/appointments-preview"
                 icon={<EventNoteRoundedIcon sx={{ fontSize: 18 }} />}
@@ -151,6 +158,7 @@ function RootApp() {
             <Route path="/monthly-schedule-detailed" element={<DetailedMonthlySchedulePage />} />
             <Route path="/preview-list-view" element={<PreviewListViewPage />} />
             <Route path="/resource-availability-board" element={<ResourceAvailabilityBoardPage />} />
+            <Route path="/resource-consolidated-calendar" element={<ResourceConsolidatedCalendarPage />} />
             <Route path="/review-publish" element={<ReviewPublishPage />} />
             <Route path="/review-publish-payload" element={<ReviewPublishPayloadPage />} />
             <Route path="/schedule-board" element={<ScheduleBoardPage />} />
