@@ -5,6 +5,7 @@ import TaskAltRoundedIcon from '@mui/icons-material/TaskAltRounded'
 import ViewWeekRoundedIcon from '@mui/icons-material/ViewWeekRounded'
 import EventNoteRoundedIcon from '@mui/icons-material/EventNoteRounded'
 import ArrowForwardRoundedIcon from '@mui/icons-material/ArrowForwardRounded'
+import FilterListRoundedIcon from '@mui/icons-material/FilterListRounded'
 import ViewTimelineRoundedIcon from '@mui/icons-material/ViewTimelineRounded'
 import { Link } from 'react-router-dom'
 
@@ -99,6 +100,13 @@ const pages = [
       'A grouped appointments feed with date sections, patient cards, doctor details, treatment pills, and status chips.',
     to: '/appointments-preview',
     icon: <EventNoteRoundedIcon sx={{ fontSize: 26 }} />,
+  },
+  {
+    title: 'Resource Filter Table',
+    description:
+      'A simple resource table with a screenshot-style filter drawer for location trees, facilities, equipment, staff, and status filters.',
+    to: '/resource-filter-table',
+    icon: <FilterListRoundedIcon sx={{ fontSize: 26 }} />,
   },
   {
     title: 'Care Plan Calendar',

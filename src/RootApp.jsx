@@ -5,6 +5,7 @@ import MedicalServicesRoundedIcon from '@mui/icons-material/MedicalServicesRound
 import TaskAltRoundedIcon from '@mui/icons-material/TaskAltRounded'
 import ViewWeekRoundedIcon from '@mui/icons-material/ViewWeekRounded'
 import EventNoteRoundedIcon from '@mui/icons-material/EventNoteRounded'
+import FilterListRoundedIcon from '@mui/icons-material/FilterListRounded'
 import ViewTimelineRoundedIcon from '@mui/icons-material/ViewTimelineRounded'
 import { Link, Route, Routes, useLocation } from 'react-router-dom'
 import CarePlanCalendarPage from './pages/CarePlanCalendarPage.jsx'
@@ -16,6 +17,7 @@ import MonthlySchedulePage from './pages/MonthlySchedulePage.jsx'
 import PreviewListViewPage from './pages/PreviewListViewPage.jsx'
 import ResourceAvailabilityBoardPage from './pages/ResourceAvailabilityBoardPage.jsx'
 import ResourceConsolidatedCalendarPage from './pages/ResourceConsolidatedCalendarPage.jsx'
+import ResourceFilterTablePage from './pages/ResourceFilterTablePage.jsx'
 import ReviewPublishPage from './pages/ReviewPublishPage.jsx'
 import ReviewPublishPayloadPage from './pages/ReviewPublishPayloadPage.jsx'
 import ScheduleBoardPage from './pages/ScheduleBoardPage.jsx'
@@ -147,6 +149,12 @@ function RootApp() {
                 label="Appointments"
               />
               <NavButton
+                active={location.pathname === '/resource-filter-table'}
+                to="/resource-filter-table"
+                icon={<FilterListRoundedIcon sx={{ fontSize: 18 }} />}
+                label="Resource Filter"
+              />
+              <NavButton
                 active={location.pathname === '/care-plan-calendar'}
                 to="/care-plan-calendar"
                 icon={<ViewTimelineRoundedIcon sx={{ fontSize: 18 }} />}
@@ -167,6 +175,7 @@ function RootApp() {
             <Route path="/preview-list-view" element={<PreviewListViewPage />} />
             <Route path="/resource-availability-board" element={<ResourceAvailabilityBoardPage />} />
             <Route path="/resource-consolidated-calendar" element={<ResourceConsolidatedCalendarPage />} />
+            <Route path="/resource-filter-table" element={<ResourceFilterTablePage />} />
             <Route path="/review-publish" element={<ReviewPublishPage />} />
             <Route path="/review-publish-payload" element={<ReviewPublishPayloadPage />} />
             <Route path="/schedule-board" element={<ScheduleBoardPage />} />
