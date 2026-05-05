@@ -100,6 +100,13 @@ const pages = [
     to: '/appointments-preview',
     icon: <EventNoteRoundedIcon sx={{ fontSize: 26 }} />,
   },
+  {
+    title: 'Care Plan Calendar',
+    description:
+      'A care-plan dashboard calendar that maps a timeline API payload into a month view and highlights appointments when a journey step is selected.',
+    to: '/care-plan-calendar',
+    icon: <ViewTimelineRoundedIcon sx={{ fontSize: 26 }} />,
+  },
 ]
 
 function HomePage() {

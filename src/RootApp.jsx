@@ -7,6 +7,7 @@ import ViewWeekRoundedIcon from '@mui/icons-material/ViewWeekRounded'
 import EventNoteRoundedIcon from '@mui/icons-material/EventNoteRounded'
 import ViewTimelineRoundedIcon from '@mui/icons-material/ViewTimelineRounded'
 import { Link, Route, Routes, useLocation } from 'react-router-dom'
+import CarePlanCalendarPage from './pages/CarePlanCalendarPage.jsx'
 import HomePage from './pages/HomePage.jsx'
 import AvailabilityCalendarPage from './pages/AvailabilityCalendarPage.jsx'
 import AppointmentsPreviewPage from './pages/AppointmentsPreviewPage.jsx'
@@ -145,6 +146,12 @@ function RootApp() {
                 icon={<EventNoteRoundedIcon sx={{ fontSize: 18 }} />}
                 label="Appointments"
               />
+              <NavButton
+                active={location.pathname === '/care-plan-calendar'}
+                to="/care-plan-calendar"
+                icon={<ViewTimelineRoundedIcon sx={{ fontSize: 18 }} />}
+                label="Care Plan"
+              />
             </Stack>
           </Toolbar>
         </AppBar>
@@ -154,6 +161,7 @@ function RootApp() {
             <Route path="/" element={<HomePage />} />
             <Route path="/availability-calendar" element={<AvailabilityCalendarPage />} />
             <Route path="/appointments-preview" element={<AppointmentsPreviewPage />} />
+            <Route path="/care-plan-calendar" element={<CarePlanCalendarPage />} />
             <Route path="/monthly-schedule" element={<MonthlySchedulePage />} />
             <Route path="/monthly-schedule-detailed" element={<DetailedMonthlySchedulePage />} />
             <Route path="/preview-list-view" element={<PreviewListViewPage />} />
