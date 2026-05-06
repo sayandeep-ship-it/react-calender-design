@@ -6,6 +6,7 @@ import ViewWeekRoundedIcon from '@mui/icons-material/ViewWeekRounded'
 import EventNoteRoundedIcon from '@mui/icons-material/EventNoteRounded'
 import ArrowForwardRoundedIcon from '@mui/icons-material/ArrowForwardRounded'
 import FilterListRoundedIcon from '@mui/icons-material/FilterListRounded'
+import StorageRoundedIcon from '@mui/icons-material/StorageRounded'
 import ViewTimelineRoundedIcon from '@mui/icons-material/ViewTimelineRounded'
 import { Link } from 'react-router-dom'
 
@@ -114,6 +115,13 @@ const pages = [
       'A care-plan dashboard calendar that maps a timeline API payload into a month view and highlights appointments when a journey step is selected.',
     to: '/care-plan-calendar',
     icon: <ViewTimelineRoundedIcon sx={{ fontSize: 26 }} />,
+  },
+  {
+    title: 'Static Data Manager',
+    description:
+      'One admin-style page for editing the seeded master tables like priority, ticket sources, procedures, shift patterns, specialties, and equipment reference data.',
+    to: '/static-seed-data-manager',
+    icon: <StorageRoundedIcon sx={{ fontSize: 26 }} />,
   },
 ]
 

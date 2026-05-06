@@ -6,6 +6,7 @@ import TaskAltRoundedIcon from '@mui/icons-material/TaskAltRounded'
 import ViewWeekRoundedIcon from '@mui/icons-material/ViewWeekRounded'
 import EventNoteRoundedIcon from '@mui/icons-material/EventNoteRounded'
 import FilterListRoundedIcon from '@mui/icons-material/FilterListRounded'
+import StorageRoundedIcon from '@mui/icons-material/StorageRounded'
 import ViewTimelineRoundedIcon from '@mui/icons-material/ViewTimelineRounded'
 import { Link, Route, Routes, useLocation } from 'react-router-dom'
 import CarePlanCalendarPage from './pages/CarePlanCalendarPage.jsx'
@@ -23,6 +24,7 @@ import ReviewPublishPayloadPage from './pages/ReviewPublishPayloadPage.jsx'
 import ScheduleBoardPage from './pages/ScheduleBoardPage.jsx'
 import ScheduleOverlayDemoPage from './pages/ScheduleOverlayDemoPage.jsx'
 import StaffAvailabilitySetupPage from './pages/StaffAvailabilitySetupPage.jsx'
+import StaticSeedDataManagerPage from './pages/StaticSeedDataManagerPage.jsx'
 import StatusRulesDesignPage from './pages/StatusRulesDesignPage.jsx'
 
 function RootApp() {
@@ -160,6 +162,12 @@ function RootApp() {
                 icon={<ViewTimelineRoundedIcon sx={{ fontSize: 18 }} />}
                 label="Care Plan"
               />
+              <NavButton
+                active={location.pathname === '/static-seed-data-manager'}
+                to="/static-seed-data-manager"
+                icon={<StorageRoundedIcon sx={{ fontSize: 18 }} />}
+                label="Static Data"
+              />
             </Stack>
           </Toolbar>
         </AppBar>
@@ -181,6 +189,7 @@ function RootApp() {
             <Route path="/schedule-board" element={<ScheduleBoardPage />} />
             <Route path="/schedule-overlays" element={<ScheduleOverlayDemoPage />} />
             <Route path="/staff-availability-setup" element={<StaffAvailabilitySetupPage />} />
+            <Route path="/static-seed-data-manager" element={<StaticSeedDataManagerPage />} />
             <Route path="/status-rules-design" element={<StatusRulesDesignPage />} />
           </Routes>
         </Container>
