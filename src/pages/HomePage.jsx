@@ -7,6 +7,7 @@ import EventNoteRoundedIcon from '@mui/icons-material/EventNoteRounded'
 import ArrowForwardRoundedIcon from '@mui/icons-material/ArrowForwardRounded'
 import FilterListRoundedIcon from '@mui/icons-material/FilterListRounded'
 import StorageRoundedIcon from '@mui/icons-material/StorageRounded'
+import AddIcCallRoundedIcon from '@mui/icons-material/AddIcCallRounded'
 import ViewTimelineRoundedIcon from '@mui/icons-material/ViewTimelineRounded'
 import { Link } from 'react-router-dom'
 
@@ -122,6 +123,13 @@ const pages = [
       'One admin-style page for editing the seeded master tables like priority, ticket sources, procedures, shift patterns, specialties, and equipment reference data.',
     to: '/static-seed-data-manager',
     icon: <StorageRoundedIcon sx={{ fontSize: 26 }} />,
+  },
+  {
+    title: 'Twilio API Tester',
+    description:
+      'A testing page for the Twilio channel APIs including connect account, search numbers, buy number, and bring existing number flows.',
+    to: '/twilio-api-tester',
+    icon: <AddIcCallRoundedIcon sx={{ fontSize: 26 }} />,
   },
 ]
 

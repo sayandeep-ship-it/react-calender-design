@@ -7,6 +7,7 @@ import ViewWeekRoundedIcon from '@mui/icons-material/ViewWeekRounded'
 import EventNoteRoundedIcon from '@mui/icons-material/EventNoteRounded'
 import FilterListRoundedIcon from '@mui/icons-material/FilterListRounded'
 import StorageRoundedIcon from '@mui/icons-material/StorageRounded'
+import AddIcCallRoundedIcon from '@mui/icons-material/AddIcCallRounded'
 import ViewTimelineRoundedIcon from '@mui/icons-material/ViewTimelineRounded'
 import { Link, Route, Routes, useLocation } from 'react-router-dom'
 import CarePlanCalendarPage from './pages/CarePlanCalendarPage.jsx'
@@ -26,6 +27,7 @@ import ScheduleOverlayDemoPage from './pages/ScheduleOverlayDemoPage.jsx'
 import StaffAvailabilitySetupPage from './pages/StaffAvailabilitySetupPage.jsx'
 import StaticSeedDataManagerPage from './pages/StaticSeedDataManagerPage.jsx'
 import StatusRulesDesignPage from './pages/StatusRulesDesignPage.jsx'
+import TwilioApiTesterPage from './pages/TwilioApiTesterPage.jsx'
 
 function RootApp() {
   const location = useLocation()
@@ -168,6 +170,12 @@ function RootApp() {
                 icon={<StorageRoundedIcon sx={{ fontSize: 18 }} />}
                 label="Static Data"
               />
+              <NavButton
+                active={location.pathname === '/twilio-api-tester'}
+                to="/twilio-api-tester"
+                icon={<AddIcCallRoundedIcon sx={{ fontSize: 18 }} />}
+                label="Twilio"
+              />
             </Stack>
           </Toolbar>
         </AppBar>
@@ -191,6 +199,7 @@ function RootApp() {
             <Route path="/staff-availability-setup" element={<StaffAvailabilitySetupPage />} />
             <Route path="/static-seed-data-manager" element={<StaticSeedDataManagerPage />} />
             <Route path="/status-rules-design" element={<StatusRulesDesignPage />} />
+            <Route path="/twilio-api-tester" element={<TwilioApiTesterPage />} />
           </Routes>
         </Container>
       </Box>
