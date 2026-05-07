@@ -131,6 +131,13 @@ const pages = [
     to: '/twilio-api-tester',
     icon: <AddIcCallRoundedIcon sx={{ fontSize: 26 }} />,
   },
+  {
+    title: 'Patient Video Call',
+    description:
+      'A public-style hosted consultation page that reads a meeting link, fetches a fresh Agora token, and lets the patient join the call.',
+    to: '/video-call/demo-room?appointment_id=27&patient_name=Masud%20Biswas&doctor_name=Sanjug%20Dey&date=06%20May%2C%202026&time=12%3A00%20PM',
+    icon: <CalendarMonthRoundedIcon sx={{ fontSize: 26 }} />,
+  },
 ]
 
 function HomePage() {

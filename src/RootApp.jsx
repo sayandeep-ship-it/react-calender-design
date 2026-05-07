@@ -27,160 +27,164 @@ import ScheduleOverlayDemoPage from './pages/ScheduleOverlayDemoPage.jsx'
 import StaffAvailabilitySetupPage from './pages/StaffAvailabilitySetupPage.jsx'
 import StaticSeedDataManagerPage from './pages/StaticSeedDataManagerPage.jsx'
 import StatusRulesDesignPage from './pages/StatusRulesDesignPage.jsx'
+import PatientVideoCallPage from './pages/PatientVideoCallPage.jsx'
 import TwilioApiTesterPage from './pages/TwilioApiTesterPage.jsx'
 
 function RootApp() {
   const location = useLocation()
+  const isPublicMeetingRoute = location.pathname.startsWith('/video-call/')
 
   return (
     <>
       <CssBaseline />
       <Box sx={{ minHeight: '100vh', bgcolor: '#f4f7f5' }}>
-        <AppBar
-          position="sticky"
-          elevation={0}
-          sx={{
-            bgcolor: 'rgba(255,255,255,0.92)',
-            color: '#21312d',
-            borderBottom: '1px solid #e2ebe5',
-            backdropFilter: 'blur(10px)',
-          }}
-        >
-          <Toolbar sx={{ justifyContent: 'space-between', gap: 2 }}>
-            <Stack direction="row" spacing={1.5} alignItems="center">
-              <Box
-                sx={{
-                  width: 34,
-                  height: 34,
-                  borderRadius: 2,
-                  bgcolor: '#0b7a57',
-                  color: 'white',
-                  display: 'grid',
-                  placeItems: 'center',
-                  fontWeight: 700,
-                }}
-              >
-                C
-              </Box>
-              <Typography variant="h6" sx={{ fontSize: 18, fontWeight: 700 }}>
-                Calendar Showcase
-              </Typography>
-            </Stack>
+        {!isPublicMeetingRoute && (
+          <AppBar
+            position="sticky"
+            elevation={0}
+            sx={{
+              bgcolor: 'rgba(255,255,255,0.92)',
+              color: '#21312d',
+              borderBottom: '1px solid #e2ebe5',
+              backdropFilter: 'blur(10px)',
+            }}
+          >
+            <Toolbar sx={{ justifyContent: 'space-between', gap: 2 }}>
+              <Stack direction="row" spacing={1.5} alignItems="center">
+                <Box
+                  sx={{
+                    width: 34,
+                    height: 34,
+                    borderRadius: 2,
+                    bgcolor: '#0b7a57',
+                    color: 'white',
+                    display: 'grid',
+                    placeItems: 'center',
+                    fontWeight: 700,
+                  }}
+                >
+                  C
+                </Box>
+                <Typography variant="h6" sx={{ fontSize: 18, fontWeight: 700 }}>
+                  Calendar Showcase
+                </Typography>
+              </Stack>
 
-            <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
-              <NavButton
-                active={location.pathname === '/'}
-                to="/"
-                icon={<HomeRoundedIcon sx={{ fontSize: 18 }} />}
-                label="Home"
-              />
-              <NavButton
-                active={location.pathname === '/availability-calendar'}
-                to="/availability-calendar"
-                icon={<CalendarMonthRoundedIcon sx={{ fontSize: 18 }} />}
-                label="Availability"
-              />
-              <NavButton
-                active={location.pathname === '/monthly-schedule'}
-                to="/monthly-schedule"
-                icon={<ViewWeekRoundedIcon sx={{ fontSize: 18 }} />}
-                label="Monthly Schedule"
-              />
-              <NavButton
-                active={location.pathname === '/monthly-schedule-detailed'}
-                to="/monthly-schedule-detailed"
-                icon={<EventNoteRoundedIcon sx={{ fontSize: 18 }} />}
-                label="Detailed Schedule"
-              />
-              <NavButton
-                active={location.pathname === '/review-publish'}
-                to="/review-publish"
-                icon={<TaskAltRoundedIcon sx={{ fontSize: 18 }} />}
-                label="Review Publish"
-              />
-              <NavButton
-                active={location.pathname === '/staff-availability-setup'}
-                to="/staff-availability-setup"
-                icon={<MedicalServicesRoundedIcon sx={{ fontSize: 18 }} />}
-                label="Staff Setup"
-              />
-              <NavButton
-                active={location.pathname === '/schedule-board'}
-                to="/schedule-board"
-                icon={<ViewTimelineRoundedIcon sx={{ fontSize: 18 }} />}
-                label="Schedule Board"
-              />
-              <NavButton
-                active={location.pathname === '/schedule-overlays'}
-                to="/schedule-overlays"
-                icon={<EventNoteRoundedIcon sx={{ fontSize: 18 }} />}
-                label="Overlays"
-              />
-              <NavButton
-                active={location.pathname === '/preview-list-view'}
-                to="/preview-list-view"
-                icon={<ViewWeekRoundedIcon sx={{ fontSize: 18 }} />}
-                label="Preview List"
-              />
-              <NavButton
-                active={location.pathname === '/review-publish-payload'}
-                to="/review-publish-payload"
-                icon={<TaskAltRoundedIcon sx={{ fontSize: 18 }} />}
-                label="Payload Review"
-              />
-              <NavButton
-                active={location.pathname === '/status-rules-design'}
-                to="/status-rules-design"
-                icon={<MedicalServicesRoundedIcon sx={{ fontSize: 18 }} />}
-                label="Status Rules"
-              />
-              <NavButton
-                active={location.pathname === '/resource-availability-board'}
-                to="/resource-availability-board"
-                icon={<CalendarMonthRoundedIcon sx={{ fontSize: 18 }} />}
-                label="Resource Board"
-              />
-              <NavButton
-                active={location.pathname === '/resource-consolidated-calendar'}
-                to="/resource-consolidated-calendar"
-                icon={<CalendarMonthRoundedIcon sx={{ fontSize: 18 }} />}
-                label="Resource Calendar"
-              />
-              <NavButton
-                active={location.pathname === '/appointments-preview'}
-                to="/appointments-preview"
-                icon={<EventNoteRoundedIcon sx={{ fontSize: 18 }} />}
-                label="Appointments"
-              />
-              <NavButton
-                active={location.pathname === '/resource-filter-table'}
-                to="/resource-filter-table"
-                icon={<FilterListRoundedIcon sx={{ fontSize: 18 }} />}
-                label="Resource Filter"
-              />
-              <NavButton
-                active={location.pathname === '/care-plan-calendar'}
-                to="/care-plan-calendar"
-                icon={<ViewTimelineRoundedIcon sx={{ fontSize: 18 }} />}
-                label="Care Plan"
-              />
-              <NavButton
-                active={location.pathname === '/static-seed-data-manager'}
-                to="/static-seed-data-manager"
-                icon={<StorageRoundedIcon sx={{ fontSize: 18 }} />}
-                label="Static Data"
-              />
-              <NavButton
-                active={location.pathname === '/twilio-api-tester'}
-                to="/twilio-api-tester"
-                icon={<AddIcCallRoundedIcon sx={{ fontSize: 18 }} />}
-                label="Twilio"
-              />
-            </Stack>
-          </Toolbar>
-        </AppBar>
+              <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
+                <NavButton
+                  active={location.pathname === '/'}
+                  to="/"
+                  icon={<HomeRoundedIcon sx={{ fontSize: 18 }} />}
+                  label="Home"
+                />
+                <NavButton
+                  active={location.pathname === '/availability-calendar'}
+                  to="/availability-calendar"
+                  icon={<CalendarMonthRoundedIcon sx={{ fontSize: 18 }} />}
+                  label="Availability"
+                />
+                <NavButton
+                  active={location.pathname === '/monthly-schedule'}
+                  to="/monthly-schedule"
+                  icon={<ViewWeekRoundedIcon sx={{ fontSize: 18 }} />}
+                  label="Monthly Schedule"
+                />
+                <NavButton
+                  active={location.pathname === '/monthly-schedule-detailed'}
+                  to="/monthly-schedule-detailed"
+                  icon={<EventNoteRoundedIcon sx={{ fontSize: 18 }} />}
+                  label="Detailed Schedule"
+                />
+                <NavButton
+                  active={location.pathname === '/review-publish'}
+                  to="/review-publish"
+                  icon={<TaskAltRoundedIcon sx={{ fontSize: 18 }} />}
+                  label="Review Publish"
+                />
+                <NavButton
+                  active={location.pathname === '/staff-availability-setup'}
+                  to="/staff-availability-setup"
+                  icon={<MedicalServicesRoundedIcon sx={{ fontSize: 18 }} />}
+                  label="Staff Setup"
+                />
+                <NavButton
+                  active={location.pathname === '/schedule-board'}
+                  to="/schedule-board"
+                  icon={<ViewTimelineRoundedIcon sx={{ fontSize: 18 }} />}
+                  label="Schedule Board"
+                />
+                <NavButton
+                  active={location.pathname === '/schedule-overlays'}
+                  to="/schedule-overlays"
+                  icon={<EventNoteRoundedIcon sx={{ fontSize: 18 }} />}
+                  label="Overlays"
+                />
+                <NavButton
+                  active={location.pathname === '/preview-list-view'}
+                  to="/preview-list-view"
+                  icon={<ViewWeekRoundedIcon sx={{ fontSize: 18 }} />}
+                  label="Preview List"
+                />
+                <NavButton
+                  active={location.pathname === '/review-publish-payload'}
+                  to="/review-publish-payload"
+                  icon={<TaskAltRoundedIcon sx={{ fontSize: 18 }} />}
+                  label="Payload Review"
+                />
+                <NavButton
+                  active={location.pathname === '/status-rules-design'}
+                  to="/status-rules-design"
+                  icon={<MedicalServicesRoundedIcon sx={{ fontSize: 18 }} />}
+                  label="Status Rules"
+                />
+                <NavButton
+                  active={location.pathname === '/resource-availability-board'}
+                  to="/resource-availability-board"
+                  icon={<CalendarMonthRoundedIcon sx={{ fontSize: 18 }} />}
+                  label="Resource Board"
+                />
+                <NavButton
+                  active={location.pathname === '/resource-consolidated-calendar'}
+                  to="/resource-consolidated-calendar"
+                  icon={<CalendarMonthRoundedIcon sx={{ fontSize: 18 }} />}
+                  label="Resource Calendar"
+                />
+                <NavButton
+                  active={location.pathname === '/appointments-preview'}
+                  to="/appointments-preview"
+                  icon={<EventNoteRoundedIcon sx={{ fontSize: 18 }} />}
+                  label="Appointments"
+                />
+                <NavButton
+                  active={location.pathname === '/resource-filter-table'}
+                  to="/resource-filter-table"
+                  icon={<FilterListRoundedIcon sx={{ fontSize: 18 }} />}
+                  label="Resource Filter"
+                />
+                <NavButton
+                  active={location.pathname === '/care-plan-calendar'}
+                  to="/care-plan-calendar"
+                  icon={<ViewTimelineRoundedIcon sx={{ fontSize: 18 }} />}
+                  label="Care Plan"
+                />
+                <NavButton
+                  active={location.pathname === '/static-seed-data-manager'}
+                  to="/static-seed-data-manager"
+                  icon={<StorageRoundedIcon sx={{ fontSize: 18 }} />}
+                  label="Static Data"
+                />
+                <NavButton
+                  active={location.pathname === '/twilio-api-tester'}
+                  to="/twilio-api-tester"
+                  icon={<AddIcCallRoundedIcon sx={{ fontSize: 18 }} />}
+                  label="Twilio"
+                />
+              </Stack>
+            </Toolbar>
+          </AppBar>
+        )}
 
-        <Container maxWidth="lg" sx={{ py: { xs: 3, md: 5 } }}>
+        <Container maxWidth={isPublicMeetingRoute ? false : 'lg'} sx={{ py: { xs: 3, md: 5 }, px: isPublicMeetingRoute ? 0 : undefined }}>
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/availability-calendar" element={<AvailabilityCalendarPage />} />
@@ -200,6 +204,7 @@ function RootApp() {
             <Route path="/static-seed-data-manager" element={<StaticSeedDataManagerPage />} />
             <Route path="/status-rules-design" element={<StatusRulesDesignPage />} />
             <Route path="/twilio-api-tester" element={<TwilioApiTesterPage />} />
+            <Route path="/video-call/:meetingId" element={<PatientVideoCallPage />} />
           </Routes>
         </Container>
       </Box>
