@@ -9,9 +9,17 @@ import FilterListRoundedIcon from '@mui/icons-material/FilterListRounded'
 import StorageRoundedIcon from '@mui/icons-material/StorageRounded'
 import AddIcCallRoundedIcon from '@mui/icons-material/AddIcCallRounded'
 import ViewTimelineRoundedIcon from '@mui/icons-material/ViewTimelineRounded'
+import PersonRoundedIcon from '@mui/icons-material/PersonRounded'
 import { Link } from 'react-router-dom'
 
 const pages = [
+  {
+    title: 'Patient Portal Dashboard',
+    description:
+      'A patient-facing dashboard with a sidebar-led portal shell, location-aware top bar, care plan summaries, appointment list and calendar views, and click-through visit details.',
+    to: '/patient-portal-dashboard',
+    icon: <PersonRoundedIcon sx={{ fontSize: 26 }} />,
+  },
   {
     title: 'Availability Calendar',
     description:

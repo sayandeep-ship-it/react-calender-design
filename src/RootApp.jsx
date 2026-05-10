@@ -29,16 +29,19 @@ import StaticSeedDataManagerPage from './pages/StaticSeedDataManagerPage.jsx'
 import StatusRulesDesignPage from './pages/StatusRulesDesignPage.jsx'
 import PatientVideoCallPage from './pages/PatientVideoCallPage.jsx'
 import TwilioApiTesterPage from './pages/TwilioApiTesterPage.jsx'
+import PatientPortalDashboardPage from './pages/PatientPortalDashboardPage.jsx'
 
 function RootApp() {
   const location = useLocation()
   const isPublicMeetingRoute = location.pathname.startsWith('/video-call/')
+  const isPortalDashboardRoute = location.pathname.startsWith('/patient-portal-dashboard')
+  const hideShellChrome = isPublicMeetingRoute || isPortalDashboardRoute
 
   return (
     <>
       <CssBaseline />
       <Box sx={{ minHeight: '100vh', bgcolor: '#f4f7f5' }}>
-        {!isPublicMeetingRoute && (
+        {!hideShellChrome && (
           <AppBar
             position="sticky"
             elevation={0}
@@ -184,7 +187,13 @@ function RootApp() {
           </AppBar>
         )}
 
-        <Container maxWidth={isPublicMeetingRoute ? false : 'lg'} sx={{ py: { xs: 3, md: 5 }, px: isPublicMeetingRoute ? 0 : undefined }}>
+        <Container
+          maxWidth={hideShellChrome ? false : 'lg'}
+          sx={{
+            py: hideShellChrome ? 0 : { xs: 3, md: 5 },
+            px: hideShellChrome ? 0 : undefined,
+          }}
+        >
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/availability-calendar" element={<AvailabilityCalendarPage />} />
@@ -204,6 +213,7 @@ function RootApp() {
             <Route path="/static-seed-data-manager" element={<StaticSeedDataManagerPage />} />
             <Route path="/status-rules-design" element={<StatusRulesDesignPage />} />
             <Route path="/twilio-api-tester" element={<TwilioApiTesterPage />} />
+            <Route path="/patient-portal-dashboard" element={<PatientPortalDashboardPage />} />
             <Route path="/video-call/:meetingId" element={<PatientVideoCallPage />} />
           </Routes>
         </Container>
