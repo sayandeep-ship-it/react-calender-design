@@ -30,11 +30,14 @@ import StatusRulesDesignPage from './pages/StatusRulesDesignPage.jsx'
 import PatientVideoCallPage from './pages/PatientVideoCallPage.jsx'
 import TwilioApiTesterPage from './pages/TwilioApiTesterPage.jsx'
 import PatientPortalDashboardPage from './pages/PatientPortalDashboardPage.jsx'
+import PatientPortalProfilePage from './pages/PatientPortalProfilePage.jsx'
 
 function RootApp() {
   const location = useLocation()
   const isPublicMeetingRoute = location.pathname.startsWith('/video-call/')
-  const isPortalDashboardRoute = location.pathname.startsWith('/patient-portal-dashboard')
+  const isPortalDashboardRoute =
+    location.pathname.startsWith('/patient-portal-dashboard') ||
+    location.pathname.startsWith('/patient-portal-profile')
   const hideShellChrome = isPublicMeetingRoute || isPortalDashboardRoute
 
   return (
@@ -214,6 +217,7 @@ function RootApp() {
             <Route path="/status-rules-design" element={<StatusRulesDesignPage />} />
             <Route path="/twilio-api-tester" element={<TwilioApiTesterPage />} />
             <Route path="/patient-portal-dashboard" element={<PatientPortalDashboardPage />} />
+            <Route path="/patient-portal-profile" element={<PatientPortalProfilePage />} />
             <Route path="/video-call/:meetingId" element={<PatientVideoCallPage />} />
           </Routes>
         </Container>

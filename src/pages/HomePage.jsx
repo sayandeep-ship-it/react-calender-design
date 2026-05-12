@@ -21,6 +21,13 @@ const pages = [
     icon: <PersonRoundedIcon sx={{ fontSize: 26 }} />,
   },
   {
+    title: 'Patient Profile Section',
+    description:
+      'A matching patient-portal profile screen for account details, password change, emergency contacts, insurance summary, and medical file uploads.',
+    to: '/patient-portal-profile',
+    icon: <PersonRoundedIcon sx={{ fontSize: 26 }} />,
+  },
+  {
     title: 'Availability Calendar',
     description:
       'React + MUI version of the compact calendar-part design with monthly, weekly, and day selection views.',
